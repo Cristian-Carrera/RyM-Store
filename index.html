@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RYM Store | Deco, Bazar & Espejos</title>
+  <meta name="description" content="Todo para vos y tu hogar. Espejos LED, deco, bazar, textil y tecnología. Envíos desde Córdoba Capital.">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="img/logo/logotipo.webp" alt="" width="44" height="44" class="brand-logo">
+        <div>
+          <h1 class="brand-title">RYM STORE</h1>
+          <p class="brand-subtitle">Deco, Bazar & Espejos · Córdoba Capital</p>
+        </div>
+      </div>
+
+      <button type="button" id="openCartBtn" class="cart-trigger" aria-label="Abrir carrito" aria-controls="cartDrawer" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span id="cartBadge" class="cart-badge">0</span>
+      </button>
+    </div>
+
+    <div class="container search-bar-wrap">
+      <label for="searchInput" class="visually-hidden">Buscar productos</label>
+      <input type="search" id="searchInput" class="search-input" placeholder="Buscar espejos LED, cortinas, zapatero, tazas..." autocomplete="off">
+    </div>
+
+    <nav class="categories-nav" aria-label="Categorías de productos">
+      <div class="container categories-wrapper">
+        <button type="button" id="catPrevBtn" class="cat-arrow" aria-label="Categorías anteriores" hidden>
+          ‹
+        </button>
+
+        <div class="categories-list" id="categoriesList"></div>
+
+        <button type="button" id="catNextBtn" class="cat-arrow" aria-label="Siguientes categorías" hidden>
+          ›
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container main-content">
+    <section aria-labelledby="catalogHeading">
+      <div class="section-header">
+        <h2 id="catalogHeading" class="section-title">Destacados</h2>
+        <span id="resultsCount" class="results-count" aria-live="polite"></span>
+      </div>
+
+      <div id="productsGrid" class="products-grid"></div>
+      <p id="emptyState" class="empty-state" hidden>No encontramos productos con ese filtro. Probá con otra palabra.</p>
+    </section>
+  </main>
+
+  <!-- Modal nativo de Vista Detallada de Producto -->
+  <dialog id="productDialog" class="product-dialog" aria-labelledby="detailTitle">
+    <div class="detail-layout">
+      <button type="button" id="closeDetailBtn" class="detail-close-btn" aria-label="Cerrar vista de producto">✕</button>
+
+      <div class="detail-media">
+        <span id="detailOfferBadge" class="badge-offer" hidden>Oferta</span>
+        <button type="button" id="detailPrevImgBtn" class="gallery-arrow gallery-prev"  aria-label="Foto anterior" hidden>
+          ‹
+        </button>
+
+        <img id="detailImg" src="" alt="" class="detail-img">
+
+        <button type="button" id="detailNextImgBtn" class="gallery-arrow gallery-next" aria-label="Siguiente foto" hidden>
+          ›
+        </button>
+
+        <span id="detailImgCounter" class="gallery-counter" hidden>1 / 1</span>
+      </div>
+
+      <div class="detail-info">
+        <span id="detailCategory" class="product-cat"></span>
+        <h3 id="detailTitle" class="detail-title"></h3>
+
+        <div class="detail-price-box">
+          <span id="detailOldPrice" class="price-old" hidden></span>
+          <div class="detail-price-row">
+            <span id="detailPrice" class="detail-price"></span>
+            <span id="detailTransferTag" class="detail-transfer-tag"></span>
+          </div>
+          <p id="detailInstallments" class="detail-installments"></p>
+        </div>
+
+        <p id="detailDescription" class="detail-description" hidden></p>
+
+        <!-- Selector de variantes (solo se muestra si el producto tiene opciones) -->
+        <div id="detailVariantsWrap" class="detail-variants-wrap" hidden>
+          <p class="detail-variants-label">Elegí una opción:</p>
+          <div id="detailVariantOptions" class="variant-options" role="radiogroup"></div>
+        </div>
+
+        <button type="button" id="detailAddBtn" class="btn-primary detail-add-btn">
+          Agregar al carrito
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Backdrop y Carrito Desplegable Lateral -->
+  <div id="cartBackdrop" class="cart-backdrop" hidden></div>
+
+  <aside id="cartDrawer" class="cart-drawer" aria-label="Carrito de compras" aria-hidden="true">
+    <div class="drawer-header">
+      <h2 class="drawer-title">Tu Carrito (<span id="drawerCount">0</span>)</h2>
+      <button type="button" id="closeCartBtn" class="icon-btn" aria-label="Cerrar carrito">✕</button>
+    </div>
+
+    <!-- 2. Barra condicional de envío gratis -->
+    <div id="shippingBarWrap" class="shipping-bar-wrap" hidden>
+      <p id="shippingText" class="shipping-text"></p>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="shippingProgressBar">
+        <div id="shippingProgressFill" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Lista scrolleable de productos + Cross-sell -->
+    <div class="drawer-body">
+      <div id="cartItemsList" class="cart-items-list" aria-live="polite"></div>
+
+      <!-- 3. Producto recomendado (1 solo, con agregar de un toque) -->
+      <section id="crossSellBox" class="cross-sell-box" aria-label="Completá tu pedido" hidden>
+        <p class="cross-sell-label">Completá tu pedido</p>
+        <div class="cross-sell-card">
+          <img id="crossSellImg" src="" alt="" width="56" height="56" class="cross-sell-img">
+          <div class="cross-sell-info">
+            <h3 id="crossSellName" class="cross-sell-name"></h3>
+            <span id="crossSellPrice" class="cross-sell-price"></span>
+          </div>
+          <button type="button" id="crossSellAddBtn" class="btn-quick-add">+ Sumar</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- 4. Footer fijo abajo con cuotas, transferencia y botón seguro -->
+    <div id="drawerFooter" class="drawer-footer" hidden>
+      <div class="totals-breakdown">
+        <div class="total-row">
+          <span>Subtotal lista</span>
+          <span id="subtotalValue">$0</span>
+        </div>
+        <div class="total-row transfer-row">
+          <span>Transferencia (<span id="transferDiscountLabel">15%</span> OFF)</span>
+          <strong id="transferValue">$0</strong>
+        </div>
+        <p id="installmentsText" class="installments-text"></p>
+      </div>
+
+      <button type="button" id="checkoutWpBtn" class="btn-whatsapp">
+        <span aria-hidden="true">🔒</span>
+        <span>Finalizar pedido por WhatsApp</span>
+      </button>
+    </div>
+  </aside>
+</body>
+</html>
