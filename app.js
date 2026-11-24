@@ -74,6 +74,8 @@ const detailDescription = document.getElementById("detailDescription");
 const detailVariantsWrap = document.getElementById("detailVariantsWrap");
 const detailVariantOptions = document.getElementById("detailVariantOptions");
 const detailAddBtn = document.getElementById("detailAddBtn");
+const detailShareBtn = document.getElementById("detailShareBtn");
+const detailShareText = document.getElementById("detailShareText");
 
 function saveCart() {
   localStorage.setItem("rym_cart", JSON.stringify(state.carrito));
@@ -215,6 +217,20 @@ function triggerAddFeedback(button) {
   }, 850);
 }
 
+//Se añade una precarga de las imagenes para eliminar ruido visual
+  function preloadGalleryImages(urls) {
+    urls.forEach((url, index) => {
+      if (index === 0) return;
+      const img = new Image();
+      img.decoding = "async";
+      img.src = url;
+      // Fuerza la decodificación en memoria antes de que el usuario toque la flecha
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
+    });
+  }
+
 function openProductModal(producto) {
   state.productoSeleccionado = producto;
   state.varianteIndex = 0;
@@ -224,6 +240,8 @@ function openProductModal(producto) {
     : [producto.imagen];
   state.imagenIndex = 0;
   renderDetailGallery();
+  preloadGalleryImages(state.galeriaActual); // <-- llamo a la funcion de precarga
+  
   
   detailCategory.textContent = producto.categoria;
   detailTitle.textContent = producto.nombre;
@@ -250,6 +268,12 @@ function openProductModal(producto) {
   }
 
   updateDetailPricing(producto.precio);
+  const url = new URL(window.location.href);
+  url.searchParams.set("producto", producto.id);
+  history.replaceState(null, "", url);
+
+  detailShareBtn.classList.remove("is-copied");
+  detailShareText.textContent = "Compartir";
   productDialog.showModal();
 }
 
@@ -276,9 +300,24 @@ function changeGalleryImage(delta) {
   state.imagenIndex = (state.imagenIndex + delta + total) % total;
   renderDetailGallery();
 }
+//Con esto elimina el delay del click
+function bindGalleryNavButton(btn, delta) {
+  btn.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    e.preventDefault();
+    changeGalleryImage(delta);
+  });
 
-detailPrevImgBtn.addEventListener("click", () => changeGalleryImage(-1));
-detailNextImgBtn.addEventListener("click", () => changeGalleryImage(1));
+  btn.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      changeGalleryImage(delta);
+    }
+  });
+}
+
+bindGalleryNavButton(detailPrevImgBtn, -1);
+bindGalleryNavButton(detailNextImgBtn, 1);
 
 productDialog.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") changeGalleryImage(-1);
@@ -339,7 +378,58 @@ detailAddBtn.addEventListener("click", () => {
   }
 });
 
-closeDetailBtn.addEventListener("click", () => productDialog.close());
+closeDetailBtn.addEventListener("click", () => productDialog.close()); /*cerrar la ventana del producto con la cruz*/
+productDialog.addEventListener("click", (e) => {                      /*cerrar  la ventana del prodcuto tocando el fondo/backdrop*/
+  if (e.target === productDialog) {
+    productDialog.close();
+  }
+});
+
+// liampar ?producto= de la URL cuando se cierra el modal
+productDialog.addEventListener("close", () => {
+  const url = new URL(window.location.href);
+  if (url.searchParams.has("producto")) {
+    url.searchParams.delete("producto");
+    history.replaceState(null, "", url);
+  }
+})
+
+//logica responsiva del boton compartir
+detailShareBtn.addEventListener("click", async () => {
+  const prod = state.productoSeleccionado;
+  if (!prod) return;
+
+  const shareUrl = new URL(window.location.href);
+  shareUrl.searchParams.set("producto", prod.id);
+  const urlFinal = shareUrl.toString();
+
+  // En celulares compatibles abre el menú nativo (WhatsApp, Instagram, etc.)
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: `${prod.nombre} | ${STORE_CONFIG.nombreTienda}`,
+        text: `Mirá este producto en ${STORE_CONFIG.nombreTienda}: ${prod.nombre}`,
+        url: urlFinal
+      });
+      return;
+    } catch (err) {
+      if (err.name === "AbortError") return; // El usuario canceló el menú
+    }
+  }
+
+  // En PC (o si falla navigator.share) copia el link directo al portapapeles
+  try {
+    await navigator.clipboard.writeText(urlFinal);
+    detailShareBtn.classList.add("is-copied");
+    detailShareText.textContent = "✓ Link copiado";
+    setTimeout(() => {
+      detailShareBtn.classList.remove("is-copied");
+      detailShareText.textContent = "Compartir";
+    }, 1800);
+  } catch {
+    prompt("Copiá este enlace para compartir el producto:", urlFinal);
+  }
+});
 
 function addToCart(producto, varianteNombre, precioUnitario) {
   const key = `${producto.id}::${varianteNombre || "base"}`;
@@ -576,7 +666,19 @@ searchInput.addEventListener("input", (e) => {
   renderProducts();
 });
 
+function openProductFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const productId = params.get("producto");
+  if (!productId) return;
+
+  const producto = PRODUCTOS.find((p) => p.id === productId && p.stock);
+  if (producto) {
+    openProductModal(producto);
+  }
+}
+
 // Inicialización
 renderCategories();
 renderProducts();
 renderCart();
+openProductFromUrl();

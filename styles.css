@@ -439,8 +439,8 @@ body {
 
 .detail-layout {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   max-height: 90dvh;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -449,7 +449,8 @@ body {
 .detail-media {
   position: relative;
   background: #111111;
-  height: 360px;
+  height: min(320px, 40dvh);
+  flex-shrink: 0;
   overflow: hidden;
 }
 
@@ -461,17 +462,41 @@ body {
   display: block;
 }
 
+.detail-right {
+  display: flex;
+  flex-direction: column;
+  min-height: o;
+  background: var(--bg-surface)
+}
+
+.detail-info {
+  padding:20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.detail-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px 14px;
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
 @media (min-width: 768px) {
   .detail-layout {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-    align-items: stretch;
+    height: min(560px, 86dvh); /*altura fija para no deformar la foto*/
     overflow: hidden;
   }
 
   .detail-media {
-    height: auto;
-    min-height: 520px;
-    max-height: none;
+    height: 100%;
   }
 
   .detail-img {
@@ -479,9 +504,58 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
-    max-height: none;
+  }
+
+  .detail-right {
+    height: 100%;
+    overflow: hidden;
   }
   
+  .detail-info {
+    padding: 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .detail-footer {
+    padding: 14px 24px 16px;
+  }
+
+}
+
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  padding-inline: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  touch-action: manipulation;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-share:hover {
+  border-color: var(--text-main);
+  background: #f4f4f5;
+}
+
+.btn-share.is-copied {
+  border-color: var(--success);
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.detail-add-btn {
+  flex: 1;
+  margin-top: 0;
 }
 
 
@@ -508,41 +582,31 @@ body {
   color: #fff;
 }
 
-.detail-img {
-  width: 100%;
-  height: 100%;
-  /*max-height: 48dvh;*/
-  object-fit: cover; /*llena todo el bloque sin dejar franjas*/
-  object-position: center;
-  display: block;
-  border-radius: 0px;
-}
-
-@media (min-width: 768px) {
-  .detail-img {
-    max-height: calc(92dvh - 40px);
-  }
-}
-
 .gallery-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  width: 38px;
-  height: 38px;
+  width: 30px; /*Area minima recomendada para moviles*/
+  height: 30px;
   border: 1px solid var(--border);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--text-main);
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
   display: grid;
   place-items: center;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.2s ease, transform 0.12s ease;
+  /*Ahora con esto elimina el delay tactil y evita que se seleccione el simbolo*/
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .gallery-arrow:hover {
@@ -633,6 +697,7 @@ body {
   font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.5;
+  white-space: pre-line; /*respeta saltos de linea*/
 }
 
 .detail-variants-wrap {

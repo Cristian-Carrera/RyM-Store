@@ -3,7 +3,8 @@ export const CATEGORIAS = [
   "Espejos",
   "Deco e Iluminación",
   "Textil & Blanco",
-  "Bazar y Cocina",
+  "Hogar",
+  "Bazar & Cocina",
   "Peluches & Kids",
   "Audio & Tecno",
   "Creadores de contenido",
@@ -22,7 +23,12 @@ export const PRODUCTOS = [
     destacado: false,
     stock: true,
     recomendadoId: "deco-zapatero-viral",
-    imagen: "https://placehold.co/500x500/18181b/ffffff?text=Espejo+Portal",
+    imagen: "img/espejos/espejo_portal.webp",
+    imagenes:[
+      "img/espejos/espejo_portal2.webp",
+      "img/espejos/espejo_portal3.webp",
+      "img/espejos/espejo_portal4.webp"
+    ],
     variantes: [
       { nombre: "Sin luz (150x60 cm)", precioExtra: 0 }
     ]
@@ -38,7 +44,7 @@ export const PRODUCTOS = [
     recomendadoId: "deco-zapatero-viral",
     imagen: "img/espejos/espejo_portal_retroiluminado.webp",
     imagenes:[
-      "img/espejos/espejo_portal_esmerilado.webp",
+      "img/espejos/espejo_portal_retroiluminado.webp",
       "img/espejos/espejo_portal_esmerilado2.webp",
       "img/espejos/espejo_portal_retroiluminado2.webp",
       "img/espejos/espejo_portal_retroiluminado3.webp",
@@ -55,84 +61,119 @@ export const PRODUCTOS = [
     nombre: "Espejo Portal Cuerpo Entero 170x70",
     categoria: "Espejos",
     precio: 92400,
-    precioAnterior: 0,
+    precioAnterior: null,
     destacado: false,
     stock: true,
     recomendadoId: "deco-zapatero-viral",
-    imagen: "https://placehold.co/500x500/18181b/ffffff?text=Espejo+Portal",
+    imagen: "img/espejos/espejo_portal3.webp",
     variantes: [
       { nombre: "Sin luz (170x70 cm)", precioExtra: 0 }
     ]
   },
   {
-    id: "esp-organico-led",
-    nombre: "Espejo Orgánico Irregular",
+    id: "esp-nube",
+    nombre: "Espejo nube",
     categoria: "Espejos",
-    precio: 62000,
+    precio: 0,
+    precioAnterior: null,
+    destacado: false,
+    stock: true,
+    recomendadoId: "deco-capelina",
+    imagen: "img/espejos/espejo_nube2.webp",
+    imagenes:[
+      "img/espejos/espejo_nube2.webp",
+      "img/espejos/espejo_nube.webp",
+      "img/espejos/espejo_nube3.webp",
+      "img/espejos/espejo_nube4.webp",
+      "img/espejos/espejo_nube5.webp"
+    ],
+    variantes: []
+  },
+  {
+    id: "esp-redondo",
+    nombre: "Espejo redondo",
+    categoria: "Espejos",
+    precio: 12000,
     precioAnterior: null,
     destacado: true,
     stock: true,
     recomendadoId: "bazar-taza-calentadora",
-    imagen: "https://placehold.co/500x500/18181b/ffffff?text=Espejo+Organico",
+    imagen: "img/espejos/espejo_redondo.webp",
     variantes: [
-      { nombre: "Mediano 80x50 cm (Sin luz)", precioExtra: 0 },
-      { nombre: "Mediano 80x50 cm (Con LED cálido)", precioExtra: 12000 },
-      { nombre: "Grande 120x60 cm (Con LED 3 tonos)", precioExtra: 26000 }
+      { nombre: " 30 cm ", precioExtra: 0 },
+      { nombre: " 40 cm ", precioExtra: 7000 },
+      { nombre: " 50 cm ", precioExtra: 15000 },
+      { nombre: " 60 cm ", precioExtra: 20000 },
+      { nombre: " 70 cm ", precioExtra: 24000 }
     ]
   },
   {
-    id: "esp-esmerilado-redondo",
-    nombre: "Espejo Redondo Esmerilado LED Touch",
+    id: "esp-redondo-esmerilado",
+    nombre: "Espejo redondo esmerilado LED Touch",
     categoria: "Espejos",
     precio: 54000,
-    precioAnterior: 61000,
+    precioAnterior: null,
     destacado: true,
     stock: true,
     recomendadoId: "textil-set-bano",
-    imagen: "https://placehold.co/500x500/18181b/ffffff?text=Espejo+Redondo+LED",
-    variantes: [
-      { nombre: "60 cm diámetro - 3 luces", precioExtra: 0 },
-      { nombre: "80 cm diámetro - 3 luces", precioExtra: 15000 }
-    ]
+    imagen: "img/espejos/espejo_redondo_esmerilado.webp",
+    variantes: []
   },
   {
-    id: "deco-zapatero-viral",
-    nombre: "Zapatero Organizador Viral",
-    categoria: "Deco e Iluminación",
+    id: "esp-redondo-retroiluminado",
+    nombre: "Espejo redondo retroiluminado",
+    categoria: "Espejos",
+    precio: 54000,
+    precioAnterior: null,
+    destacado: true,
+    stock: true,
+    recomendadoId: "tecno-estufa",
+    imagen: "img/espejos/espejo_redondo_retroiluminado.webp",
+    variantes: []
+  },
+  {
+    id: "hogar-zapatero",
+    nombre: "Zapatero Organizador",
+    categoria: "Hogar",
     precio: 15000,
     precioAnterior: 19500,
     destacado: true,
     stock: true,
     recomendadoId: "textil-cortina-blackout",
-    imagen: "https://placehold.co/500x500/27272a/ffffff?text=Zapatero+Viral",
+    imagen: "img/hogar/zapatero.webp",
     variantes: []
   },
   {
-    id: "deco-capelina-hilo",
-    nombre: "Lámpara Capelina Hilo Polipropileno",
+    id: "deco-capelina",
+    nombre: "Capelina Hilo Polipropileno",
     categoria: "Deco e Iluminación",
-    precio: 34000,
+    precio: 0,
     precioAnterior: null,
     destacado: false,
     stock: true,
     recomendadoId: "bazar-taza-calentadora",
-    imagen: "https://placehold.co/500x500/27272a/ffffff?text=Capelina+Tejida",
+    imagen: "img/deco/capelina_beige.webp",
+    imagenes:[
+      "img/deco/capelina_beige.webp",
+      "img/deco/capelina_negra.webp"
+    ],
     variantes: [
-      { nombre: "50 cm - Natural / Blanco", precioExtra: 0 },
-      { nombre: "60 cm - Natural / Negro", precioExtra: 6000 },
-      { nombre: "70 cm - Natural / Gris", precioExtra: 12000 }
-    ]
+      { nombre: "50 cm ", precioExtra: 0 },
+      { nombre: "60 cm ", precioExtra: 0 },
+      { nombre: "70 cm ", precioExtra: 0 }
+    ],
+    descripcion:"Colores disponibles: Blanco, negro, marrón y gris"
   },
   {
-    id: "textil-cortina-blackout",
-    nombre: "Cortinas Blackout 100% (Paño 1.30m)",
+    id: "textil-cortina-tropical",
+    nombre: "Cortinas tropical 2 metros",
     categoria: "Textil & Blanco",
     precio: 28000,
     precioAnterior: 33000,
     destacado: true,
     stock: true,
     recomendadoId: "textil-manta-escocesa",
-    imagen: "https://placehold.co/500x500/3f3f46/ffffff?text=Cortina+Blackout",
+    imagen: "img/textil/cortina_tropical.webp",
     variantes: []
   },
   {
@@ -160,7 +201,7 @@ export const PRODUCTOS = [
     variantes: []
   },
   {
-    id: "bazar-taza-calentadora",
+    id: "vajilla-taza-calentadora",
     nombre: "Set Taza Cerámica + Base Calentadora USB",
     categoria: "Bazar y Cocina",
     precio: 16500,
@@ -168,25 +209,52 @@ export const PRODUCTOS = [
     destacado: true,
     stock: true,
     recomendadoId: "deco-zapatero-viral",
-    imagen: "https://placehold.co/500x500/52525b/ffffff?text=Taza+Calentadora",
+    imagen: "img/vajillas/taza_calentadora.webp",
+    imagenes:[
+      "img/vajillas/taza_calentadora2.webp"
+    ],
     variantes: []
   },
   {
-    id: "tech-camara-infantil",
+    id: "camara-infantil",
     nombre: "Cámara Digital Infantil Recargable",
-    categoria: "Tech y Juguetes",
-    precio: 22000,
+    categoria: "Peluches & Kids",
+    precio: 35000,
     precioAnterior: null,
     destacado: true,
     stock: true,
     recomendadoId: "juguetes-metegol-mesa",
-    imagen: "https://placehold.co/500x500/71717a/ffffff?text=Camara+Infantil",
-    variantes: []
+    imagen: "img/juguetes/camara_infantil.webp",
+    imagenes: [
+      "img/juguetes/camara_infantil.webp",
+      "img/juguetes/camara_infantil2.webp",
+      "img/juguetes/camara_infantil3.webp",
+    ],
+    variantes: [],
+    descripcion:
+    `¡Diversión y creatividad sin pantallas!
+      Caracteristicas:
+      Fotos y videos HD
+      Impresión térmica instantánea
+      Fotos para colorear
+      Batería recargable
+      Enfoque HD
+      Súper fácil de usar
+      liviana y portátil
+      
+      INCLUYE:
+      Cámara infantil
+      Cable USB
+      Correa
+      6 fibrones de colores
+      
+      ¡Un regalo ideal para estimular la creatividad y guardar momentos divertidos!`
+    
   },
   {
     id: "juguetes-metegol-mesa",
     nombre: "Metegol de Mesa Madera Compacto",
-    categoria: "Tech y Juguetes",
+    categoria: "Peluches & Kids",
     precio: 36000,
     precioAnterior: 42000,
     destacado: false,
@@ -196,7 +264,7 @@ export const PRODUCTOS = [
     variantes: []
   },
   {
-    id: "tecnologia",
+    id: "tecno-estufa",
     nombre: "Estufa electrica",
     categoria: "Audio & Tecno",
     precio: 35000,
@@ -204,7 +272,26 @@ export const PRODUCTOS = [
     destacado: false,
     stock: true,
     recomendadoId: "tech-camara-infantil",
-    imagen: "https://placehold.co/500x500/71717a/ffffff?text=Estufa+electrica",
+    imagen: "img/tecno/estufa_electrica.webp",
     variantes: []
+  },
+  {
+    id: "creadores-aro-rgb",
+    nombre: "Aro de luz RGB 26 cm + trípode",
+    categoria: "Creadores de contenido",
+    precio: 29900,
+    precioAnterior: null,
+    destacado: false,
+    stock: true,
+    recomendadoId: "tech-camara-infantil",
+    imagen: "img/creadores_contenido/aro_rgb.webp",
+    imagenes:[
+      "img/creadores_contenido/aro_rgb2.webp"
+    ],
+    variantes: [
+      { nombre: "26 cm ", precioExtra: 0 },
+      { nombre: "36 cm ", precioExtra: 5100 },
+      { nombre: "45 cm ", precioExtra: 25100 }
+    ]
   }
 ];

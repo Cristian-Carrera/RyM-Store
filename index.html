@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RYM Store | Deco, Bazar & Espejos</title>
   <meta name="description" content="Todo para vos y tu hogar. Espejos LED, deco, bazar, textil y tecnología. Envíos desde Córdoba Capital.">
+  <!-- Open Graph / Vista previa al compartir -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:site_name" content="RYM Store">
+  <meta property="og:title" content="RYM Store | Deco, Bazar & Espejos">
+  <meta property="og:description" content="Todo para vos y tu hogar. Espejos LED, deco, bazar, textil y tecnología. Envíos desde Córdoba Capital.">
+  <meta property="og:image" content="img/logo/logotipo.webp">
+  <!-- Twitter / X Card --> 
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RYM Store | Deco, Bazar & Espejos">
+  <meta name="twitter:description" content="Todo para vos y tu hogar. Espejos LED, deco, bazar, textil y tecnología. Envíos desde Córdoba Capital.">
+  <meta name="twitter:image" content="img/logo/logotipo.webp">
   <link rel="stylesheet" href="styles.css">
   <script type="module" src="app.js"></script>
 </head>
@@ -81,30 +93,44 @@
         <span id="detailImgCounter" class="gallery-counter" hidden>1 / 1</span>
       </div>
 
-      <div class="detail-info">
-        <span id="detailCategory" class="product-cat"></span>
-        <h3 id="detailTitle" class="detail-title"></h3>
+      <div class="detail-right">
+        <div class="detail-info">
+          <span id="detailCategory" class="product-cat"></span>
+          <h3 id="detailTitle" class="detail-title"></h3>
 
-        <div class="detail-price-box">
-          <span id="detailOldPrice" class="price-old" hidden></span>
-          <div class="detail-price-row">
-            <span id="detailPrice" class="detail-price"></span>
-            <span id="detailTransferTag" class="detail-transfer-tag"></span>
+          <div class="detail-price-box">
+            <span id="detailOldPrice" class="price-old" hidden></span>
+            <div class="detail-price-row">
+              <span id="detailPrice" class="detail-price"></span>
+              <span id="detailTransferTag" class="detail-transfer-tag"></span>
+            </div>
+            <p id="detailInstallments" class="detail-installments"></p>
           </div>
-          <p id="detailInstallments" class="detail-installments"></p>
+
+          <p id="detailDescription" class="detail-description" hidden></p>
+
+          <div id="detailVariantsWrap" class="detail-variants-wrap" hidden>
+            <p class="detail-variants-label">Elegí una opción:</p>
+            <div id="detailVariantOptions" class="variant-options" role="radiogroup"></div>
+          </div>
         </div>
 
-        <p id="detailDescription" class="detail-description" hidden></p>
+        <div class="detail-footer">
+          <button type="button" id="detailShareBtn" class="btn-share" aria-label="Compartir enlace del producto" title="Compartir producto">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span id="detailShareText">Compartir</span>
+          </button>
 
-        <!-- Selector de variantes (solo se muestra si el producto tiene opciones) -->
-        <div id="detailVariantsWrap" class="detail-variants-wrap" hidden>
-          <p class="detail-variants-label">Elegí una opción:</p>
-          <div id="detailVariantOptions" class="variant-options" role="radiogroup"></div>
+          <button type="button" id="detailAddBtn" class="btn-primary detail-add-btn">
+            Agregar al carrito
+          </button>
         </div>
-
-        <button type="button" id="detailAddBtn" class="btn-primary detail-add-btn">
-          Agregar al carrito
-        </button>
       </div>
     </div>
   </dialog>
