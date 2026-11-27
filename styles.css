@@ -23,6 +23,10 @@
   padding: 0;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-page);
@@ -247,10 +251,6 @@ body {
   transform: scale(0.92);
 }
 
-.cat-arrow[hidden] {
-  display: none;
-}
-
 /* Catálogo y Grilla */
 .main-content {
   padding-block: 20px 48px;
@@ -421,7 +421,7 @@ body {
 /* Modal vista detallada */
 .product-dialog {
   margin: auto;
-  width: min(95vw, 880px);
+  width: min(95vw, 1060px);
   max-height: 90dvh;
   border: none;
   border-radius: var(--radius-lg);
@@ -457,7 +457,7 @@ body {
 .detail-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
 }
@@ -465,7 +465,7 @@ body {
 .detail-right {
   display: flex;
   flex-direction: column;
-  min-height: o;
+  min-height: 0;
   background: var(--bg-surface)
 }
 
@@ -490,7 +490,7 @@ body {
 @media (min-width: 768px) {
   .detail-layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.25fr 1fr;
     height: min(560px, 86dvh); /*altura fija para no deformar la foto*/
     overflow: hidden;
   }
@@ -587,8 +587,8 @@ body {
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  width: 30px; /*Area minima recomendada para moviles*/
-  height: 30px;
+  width: 38px; /*Area minima recomendada para moviles*/
+  height: 38px;
   border: 1px solid var(--border);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
@@ -626,11 +626,6 @@ body {
   right: 10px;
 }
 
-.gallery-arrow[hidden],
-.gallery-counter[hidden] {
-  display: none;
-}
-
 .gallery-counter {
   position: absolute;
   bottom: 10px;
@@ -641,14 +636,6 @@ body {
   color: #ffffff;
   font-size: 0.75rem;
   font-weight: 600;
-}
-
-.detail-info {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  overflow-y: auto;
 }
 
 .detail-title {

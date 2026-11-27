@@ -22,7 +22,7 @@ export const PRODUCTOS = [
     precioAnterior: 0,
     destacado: false,
     stock: true,
-    recomendadoId: "deco-zapatero-viral",
+    recomendadoId: "hogar-zapatero",
     imagen: "img/espejos/espejo_portal.webp",
     imagenes:[
       "img/espejos/espejo_portal.webp",
@@ -42,7 +42,7 @@ export const PRODUCTOS = [
     precioAnterior: 98000,
     destacado: true,
     stock: true,
-    recomendadoId: "deco-zapatero-viral",
+    recomendadoId: "hogar-zapatero",
     imagen: "img/espejos/espejo_portal_retroiluminado.webp",
     imagenes:[
       "img/espejos/espejo_portal_retroiluminado.webp",
@@ -65,7 +65,7 @@ export const PRODUCTOS = [
     precioAnterior: null,
     destacado: false,
     stock: true,
-    recomendadoId: "deco-zapatero-viral",
+    recomendadoId: "hogar-zapatero",
     imagen: "img/espejos/espejo_portal3.webp",
     variantes: [
       { nombre: "Sin luz (170x70 cm)", precioExtra: 0 }
@@ -120,7 +120,7 @@ export const PRODUCTOS = [
     precioAnterior: null,
     destacado: true,
     stock: true,
-    recomendadoId: "textil-set-bano",
+    recomendadoId: "textil-cortina-tropical",
     imagen: "img/espejos/espejo_redondo_esmerilado.webp",
     variantes: []
   },
@@ -210,10 +210,10 @@ export const PRODUCTOS = [
     recomendadoId: "cascada-led",
     imagen: "img/espejos/espejo_rectangular_esmerilado.webp",
     imagenes:[
-      "img/espejos/espejo_esmerilado.webp",
-      "img/espejos/espejo_esmerilado2.webp",
-      "img/espejos/espejo_esmerilado3.webp",
-      "img/espejos/espejo_esmerilado4.webp"
+      "img/espejos/espejo_rectangular_esmerilado.webp",
+      "img/espejos/espejo_rectangular_esmerilado2.webp",
+      "img/espejos/espejo_rectangular_esmerilado3.webp",
+      "img/espejos/espejo_rectangular_esmerilado4.webp"
     ],
     variantes: []
   },
@@ -270,7 +270,7 @@ export const PRODUCTOS = [
     precioAnterior: 19500,
     destacado: true,
     stock: true,
-    recomendadoId: "textil-cortina-blackout",
+    recomendadoId: "textil-cortina-tropical",
     imagen: "img/hogar/zapatero.webp",
     variantes: []
   },
@@ -314,12 +314,12 @@ export const PRODUCTOS = [
   {
     id:"cascada-led",
     nombre:"Cascada LED",
-    categoria:"Deco & iluminación",
+    categoria:"Deco & Iluminación",
     precio: 0,
     precioAnterior: null,
     destacado: false,
     stock: true,
-    recomendadoId: "juguera-usb",
+    recomendadoId: "tecno-juguera-usb",
     imagen:"img/deco/cascada_led.webp",
     imagenes:[
       "img/deco/cascada_led.webp"
@@ -330,7 +330,7 @@ export const PRODUCTOS = [
   {
     id:"piso-vinilico-madera",
     nombre:"Piso vinílico símil madera",
-    categoria:"Deco & iluminación",
+    categoria:"Deco & Iluminación",
     precio: 0,
     precioAnterior: null,
     destacado: false,
@@ -401,9 +401,10 @@ export const PRODUCTOS = [
     precioAnterior: 20000,
     destacado: true,
     stock: true,
-    recomendadoId: "deco-zapatero-viral",
+    recomendadoId: "hogar-zapatero",
     imagen: "img/vajillas/taza_calentadora.webp",
     imagenes:[
+      "img/vajillas/taza_calentadora.webp",
       "img/vajillas/taza_calentadora2.webp"
     ],
     variantes: []
@@ -416,7 +417,7 @@ export const PRODUCTOS = [
     precioAnterior: null,
     destacado: true,
     stock: true,
-    recomendadoId: "set-cuhillos",
+    recomendadoId: "set-cuchillos",
     imagen: "img/utensilios/set_asador.webp",
     imagenes:[
       "img/utensilios/set_asador.webp",
@@ -528,7 +529,7 @@ export const PRODUCTOS = [
     precioAnterior: 0,
     destacado: false,
     stock: true,
-    recomendadoId: "tech-camara-infantil",
+    recomendadoId: "camara-infantil",
     imagen: "img/juguetes/basta_juego.webp",
     variantes: []
   },
@@ -576,7 +577,7 @@ export const PRODUCTOS = [
     precioAnterior: 0,
     destacado: false,
     stock: true,
-    recomendadoId: "tech-camara-infantil",
+    recomendadoId: "tecno-aspiradora",
     imagen: "img/tecno/estufa_electrica.webp",
     variantes: []
   },
@@ -588,7 +589,7 @@ export const PRODUCTOS = [
     precioAnterior: 65000,
     destacado: true,
     stock: true,
-    recomendadoId: "juguera_usb",
+    recomendadoId: "tecno-juguera-usb",
     imagen: "img/tecno/aspiradora_orix.webp",
     imagenes:[
       "img/tecno/aspiradora_orix.webp",
@@ -613,7 +614,7 @@ export const PRODUCTOS = [
     precioAnterior: 0,
     destacado: false,
     stock: true,
-    recomendadoId: "tech-camara-infantil",
+    recomendadoId: "camara-infantil",
     imagen: "img/tecno/camara_foco.webp",
     imagenes:[
       "img/tecno/camara_foco.webp",
@@ -636,7 +637,7 @@ export const PRODUCTOS = [
     precioAnterior: 0,
     destacado: false,
     stock: true,
-    recomendadoId: "tech-camara-infantil",
+    recomendadoId: "camara-infantil",
     imagen: "img/tecno/game_stick.webp",
     variantes: [],
     descripcion:
@@ -665,7 +666,7 @@ export const PRODUCTOS = [
     precioAnterior: null,
     destacado: false,
     stock: true,
-    recomendadoId: "tech-camara-infantil",
+    recomendadoId: "camara-infantil",
     imagen: "img/creadores_contenido/aro_rgb.webp",
     imagenes:[
       "img/creadores_contenido/aro_rgb.webp",
@@ -679,8 +680,8 @@ export const PRODUCTOS = [
   },
   {
     id:"creadores-mic",
-    nombre:"Microfo k9",
-    categoria:"Cradores de contenido",
+    nombre:"Micrófono K9",
+    categoria:"Creadores de contenido",
     precio: 19900,
     precioAnterior: 24500,
     destacado: false,
@@ -688,7 +689,7 @@ export const PRODUCTOS = [
     recomendadoId: "creadores-aro-rgb",
     imagen:"img/creadores_contenido/microfono_k9.webp",
     imagenes:[
-      "img/creadores_contenido/microfo_k9.webp",
+      "img/creadores_contenido/microfono_k9.webp",
       "img/creadores_contenido/microfono_k9_2.webp"
     ],
     variantes:[],

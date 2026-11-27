@@ -1,5 +1,10 @@
 import { STORE_CONFIG } from "./config.js";
 import { CATEGORIAS, PRODUCTOS } from "./productos.js";
+import { cargarDatosTienda } from "./sheets.js";
+
+let liveConfig = { ...STORE_CONFIG };
+let liveCategorias = [...CATEGORIAS];
+let liveProductos = [...PRODUCTOS];
 
 const money = new Intl.NumberFormat("es-AR", {
   style: "currency",
@@ -10,7 +15,7 @@ const money = new Intl.NumberFormat("es-AR", {
 let state = {
   categoriaActiva: "Destacados",
   busqueda: "",
-  carrito: JSON.parse(localStorage.getItem("rym_cart") || "[]"),
+  carrito: loadCart(),
   productoSeleccionado: null,
   varianteIndex: 0,
   galeriaActual: [],
@@ -77,13 +82,22 @@ const detailAddBtn = document.getElementById("detailAddBtn");
 const detailShareBtn = document.getElementById("detailShareBtn");
 const detailShareText = document.getElementById("detailShareText");
 
+function loadCart() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("rym_cart") || "[]");
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
 function saveCart() {
   localStorage.setItem("rym_cart", JSON.stringify(state.carrito));
 }
 
 function renderCategories() {
   categoriesList.replaceChildren();
-  CATEGORIAS.forEach((cat) => {
+  liveCategorias.forEach((cat) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "cat-pill";
@@ -118,7 +132,7 @@ window.addEventListener("resize", updateCategoryArrows, { passive: true });
 
 function getFilteredProducts() {
   const term = state.busqueda.trim().toLowerCase();
-  return PRODUCTOS.filter((prod) => {
+  return liveProductos.filter((prod) => {
     if (!prod.stock) return false;
     const matchSearch = !term || prod.nombre.toLowerCase().includes(term) || prod.categoria.toLowerCase().includes(term);
     if (!matchSearch) return false;
@@ -249,14 +263,14 @@ function openProductModal(producto) {
   const tieneOferta = producto.precioAnterior && producto.precioAnterior > producto.precio;
   detailOfferBadge.hidden = !tieneOferta;
   detailOldPrice.hidden = !tieneOferta;
-  if (tieneOferta) {
-    detailOldPrice.textContent = money.format(producto.precioAnterior);
-  }
+  detailOldPrice.textContent = tieneOferta ? money.format(producto.precioAnterior): "";
+  
 
   if (producto.descripcion) {
     detailDescription.textContent = producto.descripcion;
     detailDescription.hidden = false;
   } else {
+    detailDescription.textContent = "";
     detailDescription.hidden = true;
   }
 
@@ -265,6 +279,8 @@ function openProductModal(producto) {
 
   if (tieneVariantes) {
     renderDetailVariants();
+  } else {
+    detailVariantOptions.replaceChildren();
   }
 
   updateDetailPricing(producto.precio);
@@ -325,13 +341,13 @@ productDialog.addEventListener("keydown", (e) => {
 });
 
 function updateDetailPricing(precioActual) {
-  const descuento = STORE_CONFIG.descuentoTransferencia;
+  const descuento = liveConfig.descuentoTransferencia;
   const precioTransf = Math.round(precioActual * (1 - descuento));
-  const valorCuota = Math.round(precioActual / STORE_CONFIG.cantidadCuotas);
+  const valorCuota = Math.round(precioActual / liveConfig.cantidadCuotas);
 
   detailPrice.textContent = money.format(precioActual);
   detailTransferTag.textContent = `${money.format(precioTransf)} por transferencia`;
-  detailInstallments.textContent = `O hasta ${STORE_CONFIG.cantidadCuotas} cuotas sin interés de ${money.format(valorCuota)}`;
+  detailInstallments.textContent = `O hasta ${liveConfig.cantidadCuotas} cuotas sin interés de ${money.format(valorCuota)}`;
 }
 
 function renderDetailVariants() {
@@ -407,8 +423,8 @@ detailShareBtn.addEventListener("click", async () => {
   if (navigator.share) {
     try {
       await navigator.share({
-        title: `${prod.nombre} | ${STORE_CONFIG.nombreTienda}`,
-        text: `Mirá este producto en ${STORE_CONFIG.nombreTienda}: ${prod.nombre}`,
+        title: `${prod.nombre} | ${liveConfig.nombreTienda}`,
+        text: `Mirá este producto en ${liveConfig.nombreTienda}: ${prod.nombre}`,
         url: urlFinal
       });
       return;
@@ -549,9 +565,9 @@ function renderCart() {
   });
 
   // 2. Barra condicional de envío gratis
-  if (STORE_CONFIG.envioGratisActivo) {
+  if (liveConfig.envioGratisActivo) {
     shippingBarWrap.hidden = false;
-    const target = STORE_CONFIG.montoEnvioGratis;
+    const target = liveConfig.montoEnvioGratis;
     const pct = Math.min(100, Math.round((subtotal / target) * 100));
     shippingProgressBar.setAttribute("aria-valuenow", String(pct));
     shippingProgressFill.style.width = `${pct}%`;
@@ -572,24 +588,24 @@ function renderCart() {
   renderCrossSell();
 
   // 4. Totales con transferencia y cuotas
-  const descuento = STORE_CONFIG.descuentoTransferencia;
+  const descuento = liveConfig.descuentoTransferencia;
   const totalTransferencia = Math.round(subtotal * (1 - descuento));
-  const valorCuota = Math.round(subtotal / STORE_CONFIG.cantidadCuotas);
+  const valorCuota = Math.round(subtotal / liveConfig.cantidadCuotas);
 
   subtotalValue.textContent = money.format(subtotal);
   transferDiscountLabel.textContent = `${Math.round(descuento * 100)}%`;
   transferValue.textContent = money.format(totalTransferencia);
-  installmentsText.textContent = `O hasta ${STORE_CONFIG.cantidadCuotas} cuotas sin interés de ${money.format(valorCuota)}`;
+  installmentsText.textContent = `O hasta ${liveConfig.cantidadCuotas} cuotas sin interés de ${money.format(valorCuota)}`;
 }
 
 function renderCrossSell() {
   const idsEnCarrito = new Set(state.carrito.map((i) => i.id));
   const ultimoItem = state.carrito[state.carrito.length - 1];
-  const candidatoId = ultimoItem?.recomendadoId || STORE_CONFIG.crossSellFallbackId;
+  const candidatoId = ultimoItem?.recomendadoId || liveConfig.crossSellFallbackId;
 
-  let sugerido = PRODUCTOS.find((p) => p.id === candidatoId && p.stock && !idsEnCarrito.has(p.id));
+  let sugerido = liveProductos.find((p) => p.id === candidatoId && p.stock && !idsEnCarrito.has(p.id));
   if (!sugerido) {
-    sugerido = PRODUCTOS.find((p) => p.stock && !idsEnCarrito.has(p.id) && (!p.variantes || p.variantes.length === 0));
+    sugerido = liveProductos.find((p) => p.stock && !idsEnCarrito.has(p.id) && (!p.variantes || p.variantes.length === 0));
   }
 
   if (!sugerido) {
@@ -629,7 +645,7 @@ checkoutWpBtn.addEventListener("click", () => {
   if (state.carrito.length === 0) return;
 
   const subtotal = state.carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  const totalTransferencia = Math.round(subtotal * (1 - STORE_CONFIG.descuentoTransferencia));
+  const totalTransferencia = Math.round(subtotal * (1 - liveConfig.descuentoTransferencia));
 
   const lineasProductos = state.carrito.map((item) => {
     const varTxt = item.variante ? ` (${item.variante})` : "";
@@ -637,17 +653,17 @@ checkoutWpBtn.addEventListener("click", () => {
   });
 
   const mensaje = [
-    `Hola *${STORE_CONFIG.nombreTienda}*! Quiero realizar el siguiente pedido desde la web:`,
+    `Hola *${liveConfig.nombreTienda}*! Quiero realizar el siguiente pedido desde la web:`,
     "",
     ...lineasProductos,
     "",
-    `*Subtotal lista / ${STORE_CONFIG.cantidadCuotas} cuotas:* ${money.format(subtotal)}`,
-    `*Total con transferencia (${Math.round(STORE_CONFIG.descuentoTransferencia * 100)}% OFF):* ${money.format(totalTransferencia)}`,
+    `*Subtotal lista / ${liveConfig.cantidadCuotas} cuotas:* ${money.format(subtotal)}`,
+    `*Total con transferencia (${Math.round(liveConfig.descuentoTransferencia * 100)}% OFF):* ${money.format(totalTransferencia)}`,
     "",
     "¿Me confirman stock y coordinación de entrega?"
   ].join("\n");
 
-  const url = `https://wa.me/${STORE_CONFIG.telefonoWhatsapp}?text=${encodeURIComponent(mensaje)}`;
+  const url = `https://wa.me/${liveConfig.telefonoWhatsapp}?text=${encodeURIComponent(mensaje)}`;
   window.open(url, "_blank", "noopener,noreferrer");
 });
 
@@ -671,14 +687,27 @@ function openProductFromUrl() {
   const productId = params.get("producto");
   if (!productId) return;
 
-  const producto = PRODUCTOS.find((p) => p.id === productId && p.stock);
+  const producto = liveProductos.find((p) => p.id === productId && p.stock);
   if (producto) {
     openProductModal(producto);
   }
 }
 
 // Inicialización
-renderCategories();
-renderProducts();
-renderCart();
-openProductFromUrl();
+async function init() {
+  renderCategories();
+  renderProducts();
+  renderCart();
+
+  const datos = await cargarDatosTienda();
+  liveConfig = datos.config;
+  liveCategorias = datos.categorias;
+  liveProductos = datos.productos;
+
+  renderCategories();
+  renderProducts();
+  renderCart();
+  openProductFromUrl();
+}
+
+init();
